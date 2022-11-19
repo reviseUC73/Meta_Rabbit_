@@ -23,6 +23,7 @@ class Super_run:
         self.obj_2.painter.hideturtle()
         self.pencil_.hideturtle()
         self.party_dict = {'name': '', 'money': 0}
+        self.status = "ready"
 
     # These are method using for print the value of x and y to make the buttons
     def super_access(self, x, y):
@@ -39,35 +40,37 @@ class Super_run:
         if -120 <= x <= 140 and -250 <= y <= -200:
             self.username = self.your_screen.textinput("Register", 'Username : ')
             self.password = self.your_screen.textinput("Register", 'Password : ')
-            user1 = Account(self.username, self.password, '')
-            pen = self.obj
-            if user1.create_account() == 'complete':
-                text = 'Your account has been created successful'
-                pen.screen_text_pos(15, -300, text, '#32CD32', 13)
-            elif user1.create_account() == 'nope_have':
-                text = 'This username has been used'
-                pen.screen_text_pos(15, -300, text, '#FF8C00', 12)
-            elif user1.create_account() == 'nope_less':
-                text = 'Your password have to include number more than one and there \n         ' \
-                       'must be more than 8 numbers or equal' \
-                       'and letters combined'
-                pen.screen_text_pos(15, -330, text, '#FFA500', 11)
+            if self.username is not None and self.password is not None:
+                user1 = Account(self.username, self.password, '')
+                pen = self.obj
+                if user1.create_account() == 'complete':
+                    text = 'Your account has been created successful'
+                    pen.screen_text_pos(15, -300, text, '#32CD32', 13)
+                elif user1.create_account() == 'nope_have':
+                    text = 'This username has been used'
+                    pen.screen_text_pos(15, -300, text, '#FF8C00', 12)
+                elif user1.create_account() == 'nope_less':
+                    text = 'Your password have to include number more than one and there \n         ' \
+                        'must be more than 8 numbers or equal' \
+                        'and letters combined'
+                    pen.screen_text_pos(15, -330, text, '#FFA500', 11)
         # position of login bottom and condition
         elif -120 <= x <= 140 and -165 <= y <= -115:
             self.username = self.your_screen.textinput("Login", 'Username :')
             self.password = self.your_screen.textinput("Login", 'Password : ')
-            self.super_wallet = my_wallet('', 0)
-            self.super_wallet.login(self.username, self.password)
-            if self.super_wallet.your_address == '':
-                pen = self.obj
-                text = 'Sorry, your password was incorrect. Please double-check your password.'
-                pen.screen_text_pos(15, -295, text, 'red', 10)
-            else:
-                self.obj_3.painter.clear()
-                self.your_screen.clearscreen()
-                self.new_screen_2()  # login complete
-                self.show_address_2()
-                self.your_screen.onclick(self.chose_point)
+            if self.username is not None and self.password is not None:
+                self.super_wallet = my_wallet('', 0)
+                self.super_wallet.login(self.username, self.password)
+                if self.super_wallet.your_address == '':
+                    pen = self.obj
+                    text = 'Sorry, your password was incorrect. Please double-check your password.'
+                    pen.screen_text_pos(15, -295, text, 'red', 10)
+                else:
+                    self.obj_3.painter.clear()
+                    self.your_screen.clearscreen()
+                    self.new_screen_2()  # login complete
+                    self.show_address_2()
+                    self.your_screen.onclick(self.chose_point)
 
     def screen_new(self):
         """show interface of your screen 1 (login/register page)"""
@@ -132,9 +135,12 @@ class Super_run:
         :param x: float,int
         :param y: float,int
         """
+        self.status = "ready"
         pen = self.obj_2
         # input address transfer and keep it in self.party_dict so that attribute of class.
         if -302 <= x <= 85 and 263 <= y <= 290:
+            self.status = "ready"
+
             pen.painter.setheading(0)
             pen.bottom_once_screen2_v3(-300, 286, 383, 23, 'pink', 3)
             pen.bottom_once_screen2_v3(-300, 290, 383, 23, 'white', 3)
@@ -144,6 +150,8 @@ class Super_run:
 
         # input money that transfer and keep it in self.party_dict so that attribute of class.
         elif -302 <= x <= 85 and 195 <= y <= 220:
+            self.status = "ready"
+
             pen.painter.setheading(0)
             pen.bottom_once_screen2_v3(-300, 216, 383, 23, 'pink', 3)
             pen.bottom_once_screen2_v3(-300, 220, 383, 23, 'white', 3)
@@ -154,18 +162,20 @@ class Super_run:
         #  use balance_transfer_2 of my_wallet class of value in parameter come from self.party_dict and when it will
         # re-screen for show your present data
         elif -76 <= x <= 81 and 95 <= y <= 151:  # confirm
-            if self.super_wallet.balance_transfer_2(self.party_dict['name'], float(self.party_dict['money'])) == 'yes':
-                self.new_screen_2()  # login complete
-                self.show_address_2()
-                self.your_screen.onclick(self.chose_point)
-            else:
-                pen.bottom_once_screen2_v3(-300, 180, 350, 20, 'gray87', 3)
-                pen.screen_text_pos_4(-280, 160, self.super_wallet.balance_transfer_2(self.party_dict['name'],
-                                                                                      float(self.party_dict['money'])),
-                                      'gray26', 10, 'left', 'Impact')
+            if self.status == "ready" :
+                if self.super_wallet.balance_transfer_2(self.party_dict['name'], float(self.party_dict['money'])) == 'yes':
+                    self.new_screen_2()  # login complete
+                    self.show_address_2()
+                    self.your_screen.onclick(self.chose_point)
+                else:
+                    pen.bottom_once_screen2_v3(-300, 180, 350, 20, 'gray87', 3)
+                    pen.screen_text_pos_4(-280, 160, self.super_wallet.balance_transfer_2(self.party_dict['name'],
+                                                                                        float(self.party_dict['money'])),
+                                        'gray26', 10, 'left', 'Impact')
+                    self.status = "wait"
         # re-screen and show your present data
         elif -336 <= x <= -172 and 95 <= y <= 151:  # cancel
-
+            self.status = "ready"
             self.new_screen_2()  # login complete
             self.show_address_2()
             self.your_screen.onclick(self.chose_point)
@@ -178,12 +188,14 @@ class Super_run:
         :param y: integer,float
         """
         # deposits bottom use deposit methods of class my wallet and re-screen for show present data of my wallet
+
         if -120 <= x <= 150 and -88 <= y <= -30:
             money = self.your_screen.textinput("Deposits", 'Amount of money: ')
             self.super_wallet.deposit(float(money))
             self.new_screen_2()  # login complete
             self.show_address_2()
             self.your_screen.onclick(self.chose_point)
+            
 
         # withdraw bottom use withdraw methods of class my wallet and re-screen for show present data of my wallet
         elif -120 <= x <= 150 and -155 <= y <= -100:  # withdraw
@@ -192,28 +204,32 @@ class Super_run:
             self.new_screen_2()  # login complete
             self.show_address_2()
             self.your_screen.onclick(self.chose_point)
-
+            
         # transfer bottom by use combination with onclick methods and put transfer methods
         elif -120 <= x <= 150 and -226 <= y <= -168:  # transfer
-            pen = self.obj
-            self.obj.painter.setheading(0)
-            self.obj.bottom_once_screen2_v4(-388.5, 300, 500, 190, '#FFE4E1', 'gray87', 3)
-            self.obj.bottom_once_screen2_v4(-75, 150, 150, 50, 'white', 'pink', 3)
-            self.obj.bottom_once_screen2_v4(-335, 150, 150, 50, 'pink', 'white', 3)
-            pen.screen_text_pos_3(-45, 110, "Confirm ", 'pink', 20, 'left', 'Impact')
-            pen.screen_text_pos_3(-300, 110, "Cancel ", 'white', 20, 'left', 'Impact')
-            pen.painter.setheading(0)
-            pen.bottom_once_screen2_v3(-300, 286, 383, 23, 'pink', 3)
-            pen.bottom_once_screen2_v3(-300, 290, 383, 23, 'white', 3)
-            pen.screen_text_pos_3(-386, 270, "Transfer To : ", 'gray26', 11, 'left', 'Impact')
-            pen.screen_text_pos_2(-290, 270, '..............', 'pink', 10, 'left')
-            pen.painter.setheading(0)
-            pen.bottom_once_screen2_v3(-300, 216, 383, 23, 'pink', 3)
-            pen.bottom_once_screen2_v3(-300, 220, 383, 23, 'white', 3)
-            pen.screen_text_pos_3(-386, 200, "Balance : ", 'gray26', 11, 'left', 'Impact')
-            pen.screen_text_pos_2(-290, 200, '..............', 'pink', 10, 'left')
-            pen.painter.setheading(0)
-            self.your_screen.onclick(self.put_transfer)
+            if self.status == "ready":
+                self.status = "wait"
+                pen = self.obj
+                self.obj.painter.setheading(0)
+                self.obj.bottom_once_screen2_v4(-388.5, 300, 500, 190, '#FFE4E1', 'gray87', 3)
+                self.obj.bottom_once_screen2_v4(-75, 150, 150, 50, 'white', 'pink', 3)
+                self.obj.bottom_once_screen2_v4(-335, 150, 150, 50, 'pink', 'white', 3)
+                pen.screen_text_pos_3(-45, 110, "Confirm ", 'pink', 20, 'left', 'Impact')
+                pen.screen_text_pos_3(-300, 110, "Cancel ", 'white', 20, 'left', 'Impact')
+                pen.painter.setheading(0)
+                pen.bottom_once_screen2_v3(-300, 286, 383, 23, 'pink', 3)
+                pen.bottom_once_screen2_v3(-300, 290, 383, 23, 'white', 3)
+                pen.screen_text_pos_3(-386, 270, "Transfer To : ", 'gray26', 11, 'left', 'Impact')
+                pen.screen_text_pos_2(-290, 270, '..............', 'pink', 10, 'left')
+                pen.painter.setheading(0)
+                pen.bottom_once_screen2_v3(-300, 216, 383, 23, 'pink', 3)
+                pen.bottom_once_screen2_v3(-300, 220, 383, 23, 'white', 3)
+                pen.screen_text_pos_3(-386, 200, "Balance : ", 'gray26', 11, 'left', 'Impact')
+                pen.screen_text_pos_2(-290, 200, '..............', 'pink', 10, 'left')
+                pen.painter.setheading(0)
+                self.your_screen.onclick(self.put_transfer)
+
+
 
         # my token bottom
         elif -120 <= x <= 150 and -295 <= y <= -239:  # my_token

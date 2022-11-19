@@ -51,7 +51,7 @@ class my_wallet:
         """
         update or save and dump data to data_wallet(j.son files)
         """
-        with open('data_wallet.json', 'r') as file:
+        with open('data_wallet.json', 'r', encoding='utf-8') as file:
             data = json.load(file)
         for key, val in data.items():
             if key == self.your_address:
@@ -75,11 +75,11 @@ class my_wallet:
         :param username: str
         :param password: str
         """
-        with open('data_account.json', 'r') as file:
+        with open('data_account.json', 'r', encoding='utf-8') as file:
             data_account = json.load(file)
         if username in data_account and data_account[username]['Password'] == password:
             self.your_address = data_account[username]["Wallet_address"]
-            with open('data_wallet.json', 'r') as file:
+            with open('data_wallet.json', 'r', encoding='utf-8') as file:
                 data_wallet = json.load(file)
                 self.balance = data_wallet[self.your_address]["Balance"]
                 self.all_token = data_wallet[self.your_address]["Your_Token"]
@@ -109,7 +109,7 @@ class my_wallet:
         :param values: int, float
         :return: str
         """
-        with open('data_wallet.json', 'r') as file:
+        with open('data_wallet.json', 'r', encoding='utf-8') as file:
             data = json.load(file)
         list_address = [i for i in data]
         if address_transfer in list_address:
@@ -137,7 +137,7 @@ class my_wallet:
         :param contract: str
         """
         list_ = []
-        with open('address_token.csv', "r") as file:
+        with open('address_token.csv', "r", encoding='utf-8') as file:
             task = csv.DictReader(file)
             data = [i for i in task]
         for i in data:
