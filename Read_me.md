@@ -50,34 +50,34 @@ meta mask crypto wallet.
 1. `data_wallet.json` file that store dict and keep address of your wallet which are key , balance ,and type of tokens
    that you have.
 
-   ![wallet_data](wallet.gif)
+   ![wallet_data](./photo/wallet.gif)
 
 2. `data_account.json` file that store dict and keep username password and address for using access to your wallet by
    access through your address and go to your wallet
 
-   ![account_data](account.gif)
+   ![account_data](./photo/account.gif)
 
 
 3. `address_token.csv` This file will store data of various tokens such as price, contract, token name, which are real
    data. *In the price section, the current price is not used. But in the future there are plans I want to make the
    price of the coin based on the real time price at that time.
 
-   ![address_token](token.jpg)
+   ![address_token](./photo/token.jpg)
 
 ### Show Test Program
 `Register `
-![register](registerr.gif) 
+![register](./photo/registerr.gif) 
 
 
 `Login `
-![access](loginn.gif)
+![access](./photo/loginn.gif)
 
 
 
 `transfer`
-![transfer](transfer.gif)
+![transfer](./photo/transfer.gif)
 
 
 `Token_wallet`
-![Token](tokenme.gif)
+![Token](./photo/tokenme.gif)
 
